@@ -9,17 +9,24 @@ public class LinearProbingHashMap<K,V>
         this.HashTable = new Node[length];
     }
 
+    /**
+     * Turns a key to an index and stores a node as value to
+     * keep the address of the objects's node.
+     * */
     public void add (Node<K,V> node)
     {
-        int i = node.key.hashCode() % (length-1); //use the item's hash as key and convert this to address
+        int i = node.key.hashCode() % (length); //use the item's hash as key and convert this to address
         while (HashTable[i] != null)
             i = (i + 1) % length;
         HashTable[i] = node;
     }
 
+    /**
+     * Removes a node from the table using linear probing.
+     * */
     public void remove(K key)
     {
-        int i = key.hashCode() % (length-1);
+        int i = key.hashCode() % (length);
         while (HashTable[i] != null)
         {
             if (key.equals(HashTable[i].key))
@@ -38,9 +45,13 @@ public class LinearProbingHashMap<K,V>
         }
     }
 
+    /**
+     * Returns the node that contains the specified key or null
+     * if the key is not found. Uses linear probing.
+     * */
     public Node<K,V> search(K key)
     {
-        int i = key.hashCode() % (length-1);
+        int i = key.hashCode() % (length);
         while (HashTable[i] != null)
         {
             if (key.equals(HashTable[i].key))

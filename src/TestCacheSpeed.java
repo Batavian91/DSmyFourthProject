@@ -4,15 +4,15 @@ public class TestCacheSpeed
 {
     public static void main(String[] args) throws IOException
     {
-        int cacheSize = 100;
+        int cacheSize = 500;
         //initialize with your cache implementation
         Cache<String, String> cache = new CacheLRU<>(cacheSize);
 
         //give path to the dat file
-        String dataFile = "dataset-1000/data-1000.dat";
+        String dataFile = "dataset-5000/data-5000.dat";
 
         //give path to the workload file
-        String requestsFile = "dataset-1000/requests-10000.dat";
+        String requestsFile = "dataset-5000/requests-100000.dat";
 
         DataSource dataSource = new DataSource(dataFile);
         WorkloadReader requestReader = new WorkloadReader(requestsFile);

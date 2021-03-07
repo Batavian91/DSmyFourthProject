@@ -11,9 +11,11 @@ public class DoublyLinkedList<K,V>
         this.tail = null;
     }
 
+    /**
+     * Places a node at the front of the list.
+     * */
     public void addFirst(Node<K,V> temp)
     {
-        //System.out.println("add \n");
         if (size == 0)
         {
             head = tail = temp;
@@ -27,59 +29,46 @@ public class DoublyLinkedList<K,V>
         ++size;
     }
 
-    public void rotate(Node<K,V> temp)
+    /**
+     * In this method a new node is initialized, since the old one
+     * must be placed at the front of the list and ties with prev
+     * and next have to be cut. AddFirst is called to put the node
+     * at the front. Check for temp == head is done in Cache, so
+     * this method checks for the rest of the potential cases.
+     * */
+    public Node<K,V> removeFromMiddle(Node<K,V> temp)
     {
-        if (head.next == tail)
+        Node<K,V> node = new Node<>(temp.key, temp.value);
+        if (size == 2)
         {
-            Node<K,V> t = head;
-            head = tail;
-            tail = t;
+            tail = head;
+            head.next = null;
         }
-        else if (tail == temp)
+        else if (temp == tail)
         {
-            temp.next = head;
-            head.previous = temp;
-            head = temp;
+            tail = tail.previous;
+            tail.next = null;
         }
         else
         {
             temp.previous.next = temp.next;
             temp.next.previous = temp.previous;
-            temp.next = head;
-            head.previous = temp;
-            head = temp;
         }
+        --size;
+        addFirst(node);
+        return node;
     }
 
+    /**
+     * Removes the last node from the list. It doesn't
+     * check for null values, since we suppose a cache
+     * memory has a positive number of blocks, hence
+     * there will always be at least a node in the list.
+     * */
     public void removeLast()
     {
         tail = tail.previous;
         tail.next = null;
         --size;
-    }
-
-    public void print()
-    {
-        try
-        {
-            if (size == 0)
-                System.out.println("Empty cache!");
-            else
-            {
-                System.out.println("Cache items:  ");
-                Node<K,V> current = head;
-                do
-                {
-                    System.out.println("{" + current.key + ", " + current.value + "}");
-                    current = current.next;
-                }
-                while (current!=null);
-            }
-            System.out.println("");
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
     }
 }
